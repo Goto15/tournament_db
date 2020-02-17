@@ -1,3 +1,3 @@
-class Card < ApplicationRecord
+class Card < ActiveRecord::Base
     has_many :cardlists
 end

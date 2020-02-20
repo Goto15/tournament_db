@@ -23,22 +23,14 @@ Tournament.create(name: "July 2019 Monthly Digital", format: "Dark Draft", date:
 Tournament.create(name: "August 2019 Monthly Digital", format: "Constructed", date: DateTime.new(2019, 8, 31))
 Tournament.create(name: "September 2019 Monthly Digital", format: "Dark Draft", date: DateTime.new(2019, 9, 28))
 
-Registration.create(player_id: mag.id, deck_id: 1) # Magnetic
-mag = Registration.find(1)
-Registration.create(player_id: tom.id, deck_id: 1) # TomEpicGamin
-tom = Registration.find(2)
-Registration.create(player_id: atl.id, deck_id: 1) # Atlanta
-atl = Registration.find(3)
-Registration.create(player_id: tat.id, deck_id: 1) # TatDaddy
-tat = Registration.find(4)
-Registration.create(player_id: bmc.id, deck_id: 1) # bmcfluff
-bmc = Registration.find(5)
-Registration.create(player_id: nhb.id, deck_id: 1) # nhblandin
-nhb = Registration.find(6)
-Registration.create(player_id: nove.id, deck_id: 1) # noverb
-nove = Registration.find(7)
-Registration.create(player_id: livious.id, deck_id: 1) # livious
-livious = Registration.find(8)
+mag = Registration.create(player_id: mag.id, deck_id: 1) # Magnetic
+tom = Registration.create(player_id: tom.id, deck_id: 1) # TomEpicGamin
+atl = Registration.create(player_id: atl.id, deck_id: 1) # Atlanta
+tat = Registration.create(player_id: tat.id, deck_id: 1) # TatDaddy
+bmc = Registration.create(player_id: bmc.id, deck_id: 1) # bmcfluff
+nhb = Registration.create(player_id: nhb.id, deck_id: 1) # nhblandin
+nove = Registration.create(player_id: nove.id, deck_id: 1) # noverb
+livious = Registration.create(player_id: livious.id, deck_id: 1) # livious
 
 Match.create(tournament_id: 1, winner: mag, loser: tom, round: '1')
 Match.create(tournament_id: 1, winner: atl, loser: tat, round: '1')

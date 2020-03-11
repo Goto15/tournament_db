@@ -11,7 +11,6 @@ class Player < ActiveRecord::Base
         end.compact
     end
 
-    # TODO: Return opponent and if the player won or lost
     def all_matches
         (self.all_wins + self.all_losses).sort_by do |match|
             match.tournament_id
@@ -19,12 +18,9 @@ class Player < ActiveRecord::Base
     end
 
     def all_tournaments
-        tournaments = []
-
-        self.all_matches.map do |match|
-        end.compact
-
-        tournaments
+        self.all_matches.map do |m|
+          m.tournament.name
+        end.uniq
     end
 
     def all_wins

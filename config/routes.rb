@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   # Player routes
   get '/players/:id/matches', to: 'players#all_matches'
+  get '/players/:id/tournaments', to: 'players#all_tournaments'
 
   # Tournament routes
   get '/tournaments/:id/players', to: 'tournaments#players'

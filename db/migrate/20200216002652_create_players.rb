@@ -4,8 +4,6 @@ class CreatePlayers < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :ign
       t.float :elo
-
-      t.timestamps
     end
   end
 end

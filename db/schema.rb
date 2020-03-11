@@ -15,21 +15,15 @@ ActiveRecord::Schema.define(version: 2020_02_16_004819) do
   create_table "cardlists", force: :cascade do |t|
     t.integer "deck_id"
     t.integer "card_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "cards", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "decks", force: :cascade do |t|
     t.string "name"
     t.string "archetype"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "matches", force: :cascade do |t|
@@ -37,31 +31,23 @@ ActiveRecord::Schema.define(version: 2020_02_16_004819) do
     t.integer "winner_id"
     t.integer "loser_id"
     t.string "round"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "players", force: :cascade do |t|
     t.string "name"
     t.string "ign"
     t.float "elo"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "registrations", force: :cascade do |t|
     t.integer "player_id"
     t.integer "deck_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "tournaments", force: :cascade do |t|
     t.string "name"
     t.string "format"
     t.datetime "date"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
 end

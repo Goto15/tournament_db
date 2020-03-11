@@ -11,7 +11,7 @@ class Player < ActiveRecord::Base
         end.compact
     end
 
-    # TODO Return opponent and if the player won or lost
+    # TODO: Return opponent and if the player won or lost
     def all_matches
         (self.all_wins + self.all_losses).sort_by do |match|
             match.tournament_id
@@ -21,11 +21,8 @@ class Player < ActiveRecord::Base
     def all_tournaments
         tournaments = []
 
-        self.all_matches.each do |match|
-            if match
-                tournaments << Tournament.find(match.tournament_id)
-            end
-        end
+        self.all_matches.map do |match|
+        end.compact
 
         tournaments
     end
@@ -36,6 +33,14 @@ class Player < ActiveRecord::Base
                 Match.find_by(winner: reg)
             end
         end.compact
+    end
+
+    def get_opponent(match)
+      if self.ign == match.winner.player.ign
+        match.loser.player.ign
+      else
+        match.winner.player.ign
+      end
     end
 
     def win_percentage

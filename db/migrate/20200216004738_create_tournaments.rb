@@ -4,8 +4,6 @@ class CreateTournaments < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :format
       t.datetime :date
-      
-      t.timestamps
     end
   end
 end

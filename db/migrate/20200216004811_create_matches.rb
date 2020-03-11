@@ -5,8 +5,6 @@ class CreateMatches < ActiveRecord::Migration[6.0]
       t.integer :winner_id
       t.integer :loser_id
       t.string :round
-
-      t.timestamps
     end
   end
 end

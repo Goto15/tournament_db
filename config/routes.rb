@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
-  
   resources :players, only: [:show, :index]
   resources :tournaments, only: [:show, :index]
+  resources :matches, only: [:show, :index]
 
   # Player routes
-  get '/players/:id/matches', to: 'players#all_matches'
-  get '/players/:id/tournaments', to: 'players#all_tournaments'
+  get '/players/:id/matches', to: 'players#matches'
+  get '/players/:id/tournaments', to: 'players#tournaments'
 
   # Tournament routes
   get '/tournaments/:id/players', to: 'tournaments#players'

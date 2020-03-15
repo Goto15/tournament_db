@@ -1,3 +1,69 @@
+Deck.create(name: "No deck listed")
+
+luc = Player.create(ign: "HLuca", elo: 1600)
+mat = Player.create(ign: "Moxlessmatt", elo: 1600)
+ben = Player.create(name: "Ben Sullivan", ign: "BeneBeats", elo: 1600)
+ham = Player.create(ign: "Hampuse1", elo: 1600)
+nat = Player.create(ign: "noverb", elo: 1600)
+tat = Player.create(ign: "TatDaddy", elo: 1600)
+bmc = Player.create(ign: "bmcfluff", elo: 1600)
+mag = Player.create(ign: "Magnetic", elo: 1600)
+nhb = Player.create(ign: "NHBlandin", elo: 1600)
+atl = Player.create(ign: "Atlanta", elo: 1600)
+tom = Player.create(ign: "TomEpicGamin", elo: 1600)
+epi = Player.create(ign: "EpicAgenda", elo: 1600)
+
+t1 = Tournament.create(name: "February 2020 Monthly Digital", format: "Dark Draft", date: DateTime.new(2020, 2, 29))
+
+luc_reg = Registration.create(player_id: luc.id, deck_id: 1)
+mat_reg = Registration.create(player_id: mat.id, deck_id: 1)
+ben_reg = Registration.create(player_id: ben.id, deck_id: 1)
+ham_reg = Registration.create(player_id: ham.id, deck_id: 1)
+nat_reg = Registration.create(player_id: nat.id, deck_id: 1)
+tat_reg = Registration.create(player_id: tat.id, deck_id: 1)
+bmc_reg = Registration.create(player_id: bmc.id, deck_id: 1)
+mag_reg = Registration.create(player_id: mag.id, deck_id: 1)
+nhb_reg = Registration.create(player_id: nhb.id, deck_id: 1)
+atl_reg = Registration.create(player_id: atl.id, deck_id: 1)
+tom_reg = Registration.create(player_id: tom.id, deck_id: 1)
+epi_reg = Registration.create(player_id: epi.id, deck_id: 1)
+
+# February Round 1 
+Match.create(tournament_id: t1.id, winner: luc_reg, loser: mat_reg, round: '1')
+Match.create(tournament_id: t1.id, winner: ben_reg, loser: ham_reg, round: '1')
+Match.create(tournament_id: t1.id, winner: tat_reg, loser: nat_reg, round: '1')
+Match.create(tournament_id: t1.id, winner: bmc_reg, loser: mag_reg, round: '1')
+Match.create(tournament_id: t1.id, winner: atl_reg, loser: nhb_reg, round: '1')
+Match.create(tournament_id: t1.id, winner: tom_reg, loser: epi_reg, round: '1')
+# February Round 2
+Match.create(tournament_id: t1.id, winner: tat_reg, loser: atl_reg, round: '2')
+Match.create(tournament_id: t1.id, winner: ben_reg, loser: bmc_reg, round: '2')
+Match.create(tournament_id: t1.id, winner: tom_reg, loser: luc_reg, round: '2')
+Match.create(tournament_id: t1.id, winner: nhb_reg, loser: mat_reg, round: '2')
+Match.create(tournament_id: t1.id, winner: mag_reg, loser: nat_reg, round: '2')
+Match.create(tournament_id: t1.id, winner: ham_reg, loser: epi_reg, round: '2')
+# February Round 3
+Match.create(tournament_id: t1.id, winner: ham_reg, loser: bmc_reg, round: '3')
+Match.create(tournament_id: t1.id, winner: mag_reg, loser: nhb_reg, round: '3')
+Match.create(tournament_id: t1.id, winner: epi_reg, loser: luc_reg, round: '3')
+Match.create(tournament_id: t1.id, winner: nat_reg, loser: mat_reg, round: '3')
+Match.create(tournament_id: t1.id, winner: tat_reg, loser: ben_reg, round: '3')
+Match.create(tournament_id: t1.id, winner: tom_reg, loser: atl_reg, round: '3')
+# February Round 4
+Match.create(tournament_id: t1.id, winner: tom_reg, loser: tat_reg, round: '4')
+Match.create(tournament_id: t1.id, winner: mag_reg, loser: ben_reg, round: '4')
+Match.create(tournament_id: t1.id, winner: atl_reg, loser: ham_reg, round: '4')
+Match.create(tournament_id: t1.id, winner: bmc_reg, loser: nhb_reg, round: '4')
+Match.create(tournament_id: t1.id, winner: epi_reg, loser: mat_reg, round: '4')
+Match.create(tournament_id: t1.id, winner: luc_reg, loser: nat_reg, round: '4')
+# February Semifinals
+Match.create(tournament_id: t1.id, winner: tom_reg, loser: atl_reg, round: 'semifinals')
+Match.create(tournament_id: t1.id, winner: tat_reg, loser: mag_reg, round: 'semifinals')
+# February Finals
+Match.create(tournament_id: t1.id, winner: tat_reg, loser: tom_reg, round: 'finals')
+
+=begin
+# Closed Alpha Tournaments 
 atl = Player.create(ign: "Atlanta", elo: 1600)
 ben = Player.create(name: "Ben Sullivan", ign: "BeneBeats", elo: 1600)
 bmc = Player.create(ign: "bmcfluff", elo: 1600)
@@ -16,9 +82,6 @@ tom = Player.create(ign: "TomEpicGamin", elo: 1600)
 www = Player.create(ign: "www", elo: 1600)
 ham = Player.create(ign: "Hampuse1", elo: 1600)
 
-Deck.create(name: "No deck listed")
-
-t1 = Tournament.create(name: "May 2019 Monthly Digital", format: "Constructed", date: DateTime.new(2019, 5, 25))
 mag_reg = Registration.create(player_id: mag.id, deck_id: 1) # Magnetic
 tom_reg = Registration.create(player_id: tom.id, deck_id: 1) # TomEpicGamin
 atl_reg = Registration.create(player_id: atl.id, deck_id: 1) # Atlanta
@@ -116,4 +179,5 @@ Match.create(tournament_id: t4.id, winner: nov_reg, loser: dan_reg, round: '3')
 Match.create(tournament_id: t4.id, winner: mag_reg, loser: tat_reg, round: '3')
 Match.create(tournament_id: t4.id, winner: tat_reg, loser: mag_reg, round: 'finals')
 
-# Tournament.create(name: "September 2019 Monthly Digital", format: "Dark Draft", date: DateTime.new(2019, 9, 28))
+Tournament.create(name: "September 2019 Monthly Digital", format: "Dark Draft", date: DateTime.new(2019, 9, 28))
+=end

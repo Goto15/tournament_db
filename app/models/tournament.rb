@@ -19,6 +19,7 @@ class Tournament < ActiveRecord::Base
         max_round
     end
 
+    # TODO: Just look at round 1 and 2 for players. This should guarantee a list of all players.
     def players
         players = []
         self.matches.map do |match|

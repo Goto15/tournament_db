@@ -24,6 +24,38 @@ module EcgApi
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
+    # Add middleware listening.
+    config.middleware.use(
+      Metrics::Integration::Rack::Middleware, :agent => Metrics::Agent.new, :show => '/stats'
+    )
+
+    # Run the Elo calculations and updates
+    config.after_initialize do
+
+      # Reset all player's ratings to avoid double calculations
+      Player.all.each do |player|
+        player.elo = 1600
+        player.save
+      end
+
+      # Calculate all players Elo ratings
+      Match.all.each do |match|
+        loser = match.loser.player
+        winner = match.winner.player
+
+        elo_match = EloRating::Match.new
+        elo_match.add_player(rating: loser.elo)
+        elo_match.add_player(rating: winner.elo, winner: true)
+
+        loser.elo = elo_match.updated_ratings[0]
+        winner.elo = elo_match.updated_ratings[1]
+
+        loser.save
+        winner.save
+      end
+
+    end
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading

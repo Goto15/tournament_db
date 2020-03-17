@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_16_004819) do
+ActiveRecord::Schema.define(version: 7) do
 
   create_table "cardlists", force: :cascade do |t|
     t.integer "deck_id"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2020_02_16_004819) do
     t.integer "tournament_id"
     t.integer "winner_id"
     t.integer "loser_id"
+    t.float "elo_delta"
     t.string "round"
   end
 

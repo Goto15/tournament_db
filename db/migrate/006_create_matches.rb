@@ -4,6 +4,7 @@ class CreateMatches < ActiveRecord::Migration[6.0]
       t.integer :tournament_id
       t.integer :winner_id
       t.integer :loser_id
+      t.float :elo_delta
       t.string :round
     end
   end

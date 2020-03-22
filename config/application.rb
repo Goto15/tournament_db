@@ -1,17 +1,17 @@
 require_relative 'boot'
 
-require "rails"
+require 'rails'
 # Pick the frameworks you want:
-require "active_model/railtie"
-require "active_job/railtie"
-require "active_record/railtie"
-require "active_storage/engine"
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "action_mailbox/engine"
-require "action_text/engine"
-require "action_view/railtie"
-require "action_cable/engine"
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'active_storage/engine'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_mailbox/engine'
+require 'action_text/engine'
+require 'action_view/railtie'
+require 'action_cable/engine'
 # require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
@@ -26,13 +26,12 @@ module EcgApi
 
     # Add middleware listening.
     config.middleware.use(
-      Metrics::Integration::Rack::Middleware, :agent => Metrics::Agent.new, :show => '/stats'
+      Metrics::Integration::Rack::Middleware, agent: Metrics::Agent.new, show: '/stats'
     )
 
     # Run the Elo calculations and updates
     config.after_initialize do
-
-      EloRating::k_factor = 36
+      EloRating.k_factor = 36
 
       # Reset all player's ratings to avoid double calculations
       Player.all.each do |player|
@@ -58,7 +57,6 @@ module EcgApi
         loser.save
         winner.save
       end
-
     end
 
     # Settings in config/environments/* take precedence over those specified here.

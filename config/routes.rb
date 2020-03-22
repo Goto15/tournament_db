@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :players, only: [:show, :index]
-  resources :tournaments, only: [:show, :index]
-  resources :matches, only: [:show, :index]
+  resources :players, only: %i[show index]
+  resources :tournaments, only: %i[show index]
+  resources :matches, only: %i[show index]
 
   # Player routes
   get '/players/:id/matches', to: 'players#matches'

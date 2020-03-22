@@ -7,7 +7,8 @@ class MatchesController < ApplicationController
       tournament: match.tournament.name,
       round: match.round,
       winner: match.winner.player.ign,
-      loser: match.loser.player.ign
+      loser: match.loser.player.ign,
+      elo_delta: match.elo_delta
     }
 
     render json: match_info

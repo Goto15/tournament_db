@@ -12,14 +12,14 @@ class Player < ActiveRecord::Base
   end
 
   def all_matches
-    (self.all_wins + self.all_losses).sort_by do |match|
+    (self.all_wins + self.all_losses).map do |match|
       match
     end
   end
 
   def all_tournaments
     self.all_matches.map do |m|
-      m.tournament.name
+      m.tournament
     end.uniq
   end
 

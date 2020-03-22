@@ -25,10 +25,10 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
-# Metrics Gem
+# Metrics Gem from: https://github.com/johnewart/ruby-metrics
 gem 'ruby-metrics'
 
-# Elo rating gem
+# Elo rating gem from: https://github.com/mxhold/elo_rating
 gem 'elo_rating', '~> 1.0'
 
 group :development, :test do

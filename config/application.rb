@@ -32,6 +32,8 @@ module EcgApi
     # Run the Elo calculations and updates
     config.after_initialize do
 
+      EloRating::k_factor = 36
+
       # Reset all player's ratings to avoid double calculations
       Player.all.each do |player|
         player.elo = 1600
@@ -47,9 +49,12 @@ module EcgApi
         elo_match.add_player(rating: loser.elo)
         elo_match.add_player(rating: winner.elo, winner: true)
 
+        match.elo_delta = loser.elo - elo_match.updated_ratings[0]
+
         loser.elo = elo_match.updated_ratings[0]
         winner.elo = elo_match.updated_ratings[1]
 
+        match.save
         loser.save
         winner.save
       end

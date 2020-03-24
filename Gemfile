@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -32,9 +34,12 @@ gem 'ruby-metrics'
 # Elo rating gem from: https://github.com/mxhold/elo_rating
 gem 'elo_rating', '~> 1.0'
 
+# RuboCop: static code analyzer and code formatter
+gem 'rubocop', require: false
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do

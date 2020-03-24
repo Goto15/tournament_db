@@ -1,9 +1,11 @@
-class Match < ActiveRecord::Base
-    belongs_to :winner, :class_name => "Registration"
-    belongs_to :loser, :class_name => "Registration"
-    belongs_to :tournament
+# frozen_string_literal: true
 
-    def all_matches
-      Match.all
-    end
+class Match < ActiveRecord::Base
+  belongs_to :winner, class_name: 'Registration'
+  belongs_to :loser, class_name: 'Registration'
+  belongs_to :tournament
+
+  def all_matches
+    Match.all
+  end
 end

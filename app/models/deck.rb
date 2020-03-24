@@ -1,4 +1,6 @@
+# frozen_string_literal: true
+
 class Deck < ActiveRecord::Base
-    has_many :cardlists
-    has_many :registrations
+  has_many :cardlists
+  has_many :registrations
 end

@@ -1,4 +1,6 @@
+# frozen_string_literal: true
+
 class Cardlist < ActiveRecord::Base
-    belongs_to :card 
-    belongs_to :deck
+  belongs_to :card
+  belongs_to :deck
 end

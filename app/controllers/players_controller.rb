@@ -2,9 +2,12 @@
 
 class PlayersController < ApplicationController
   def index
+    all_players = Player.all
+    player_tournaments = Tournament.all
+
     player_array = []
 
-    Player.all.each do |player|
+    all_players.each do |player|
       player_array <<
         {
           id: player.id,
@@ -15,12 +18,8 @@ class PlayersController < ApplicationController
           wins: player.all_wins.count,
           losses: player.all_losses.count,
           num_tournaments: player.all_tournaments.count,
-          tournament_wins: Tournament.all.select do |tournament|
-                             tournament.winner == player.ign
-                           end.count,
-          top_8s: Tournament.all.select do |tournament|
-                    tournament.top_8.include?(player.ign)
-                  end.count
+          tournament_wins: player_tournaments.select{ |tournament| tournament.winner == player.ign }.count,
+          top_8s: player_tournaments.select{ |tournament| tournament.top_8.include?(player.ign) }.count
         }
     end
 

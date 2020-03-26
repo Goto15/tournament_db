@@ -4,12 +4,12 @@ class TournamentsController < ApplicationController
   def index
     tournaments = {}
 
-    Tournament.all.each do |t|
-      tournaments[t.id] =
+    Tournament.all.each do |tournament|
+      tournaments[tournament.id] =
         {
-          name: t.name,
-          date: t.format_date,
-          format: t.format
+          name: tournament.name,
+          date: tournament.format_date,
+          format: tournament.format
         }
     end
 
@@ -50,11 +50,11 @@ class TournamentsController < ApplicationController
         matches: []
       }
 
-    allmatches.each do |m|
+    allmatches.each do |match|
       matches[:matches] << {
-        winner: m.winner.player.ign,
-        loser: m.loser.player.ign,
-        round: m.round
+        winner: match.winner.player.ign,
+        loser: match.loser.player.ign,
+        round: match.round
       }
     end
 

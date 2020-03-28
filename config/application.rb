@@ -24,7 +24,7 @@ module EcgApi
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
-    # Add middleware listening.
+    # Add middleware listening for metrics.
     config.middleware.use(
       Metrics::Integration::Rack::Middleware, agent: Metrics::Agent.new, show: '/stats'
     )

@@ -34,13 +34,15 @@ class PlayersController < ApplicationController
     player.all_tournaments.each do |tournament|
       matches[tournament.name] =
         player.all_matches.map do |match|
-          {
-            round: match.round,
-            opponent: player.get_opponent(match),
-            result: match.winner.player.ign == player.ign ? 'won' : 'lost',
-            elo_delta: match.elo_delta
-          }
-        end
+          if match.tournament == tournament
+            {
+              round: match.round,
+              opponent: player.get_opponent(match),
+              result: match.winner.player.ign == player.ign ? 'won' : 'lost',
+              elo_delta: match.elo_delta
+            }
+          end
+        end.compact
     end
 
     player_info = {
@@ -75,8 +77,6 @@ class PlayersController < ApplicationController
   end
 
   def tournaments
-    player = Player.find(params[:id])
-
-    render json: player.all_tournaments
+    render json: Player.find(params[:id]).all_tournaments
   end
 end

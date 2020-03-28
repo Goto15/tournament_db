@@ -21,4 +21,14 @@ class Match < ActiveRecord::Base
   def loser_ign
     self.loser.player.ign 
   end
+
+  def match_data
+    {
+      tournament: self.tournament.name,
+      round: self.round,
+      winner: self.winner_ign,
+      loser: self.loser_ign,
+      elo_delta: self.elo_delta
+    }
+  end
 end

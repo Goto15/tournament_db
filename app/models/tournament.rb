@@ -14,7 +14,7 @@ class Tournament < ActiveRecord::Base
 
   # For now only top 2, 4, 8 rounds are broken out here. This could
   # be useful in the future for things such as top 8 win% and breaking
-  # out non-standard rounds.
+  # out non-standard rounds. Could possibly be and ENUM
   $NON_SWISS_ROUNDS = %w[quarterfinals semifinals finals]
 
   def format_date
@@ -48,9 +48,43 @@ class Tournament < ActiveRecord::Base
     
     # As a readability note: I usually keep away from ternary
     # operators. However I noticed that they were hard to read to my
-    # eye. So I've started writing them when I can to improve my own
+    # eye. So I've started writing them, when I can, to improve my own
     # reading and writing comprehension.
     winner = matches.find_by(round: 'finals').winner_ign
     winner ? winner : 'No finals'
+  end
+
+  def index_data
+    {
+      name: self.name,
+      format: self.format,
+      date: self.format_date
+    }
+  end
+
+  def matches_data
+    {
+      tournament: self.name,
+      format: self.format,
+      date: self.format_date,
+      matches: self.matches.map do |match|        
+                  {
+                    winner: match.winner_ign,
+                    loser: match.loser_ign,
+                    round: match.round
+                  }
+                end
+    }
+  end
+
+  def show_data
+    {
+      name: self.name,
+      format: self.format,
+      date: self.format_date,
+      rounds: self.number_of_rounds,
+      winner: self.winner,
+      players: self.players
+    }
   end
 end

@@ -5,59 +5,21 @@ class TournamentsController < ApplicationController
     tournaments = {}
 
     Tournament.all.each do |tournament|
-      tournaments[tournament.id] =
-        {
-          name: tournament.name,
-          date: tournament.format_date,
-          format: tournament.format
-        }
+      tournaments[tournament.id] = tournament.index_data
     end
 
     render json: tournaments
   end
 
   def show
-    tourney = Tournament.find(params[:id])
-
-    tourney_info =
-      {
-        name: tourney.name,
-        date: tourney.format_date,
-        format: tourney.format,
-        rounds: tourney.number_of_rounds,
-        winner: tourney.winner,
-        players: tourney.players
-      }
-
-    render json: tourney_info
+    render json: Tournament.find(params[:id]).show_data
   end
 
   def players
-    playerlist = Tournament.find(params[:id]).players
-
-    render json: playerlist
+    render json: Tournament.find(params[:id]).players
   end
 
   def matches
-    tournament = Tournament.find(params[:id])
-    allmatches = tournament.matches
-
-    matches =
-      {
-        tournament: tournament.name,
-        format: tournament.format,
-        date: tournament.format_date,
-        matches: []
-      }
-
-    allmatches.each do |match|
-      matches[:matches] << {
-        winner: match.winner.player.ign,
-        loser: match.loser.player.ign,
-        round: match.round
-      }
-    end
-
-    render json: matches
+    render json: Tournament.find(params[:id]).matches_data
   end
 end

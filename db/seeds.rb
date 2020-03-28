@@ -63,6 +63,73 @@ Match.create(tournament_id: t1.id, winner: tat_reg, loser: mag_reg, round: semi)
 # February Finals
 Match.create(tournament_id: t1.id, winner: tat_reg, loser: tom_reg, round: 'finals')
 
+# March New Player
+ped = Player.create(ign: 'Pedro', elo: 1600)
+kro = Player.create(ign: 'Krokmaster', elo: 1600)
+sir = Player.create(ign: 'Sir3', elo: 1600)
+por = Player.create(ign: 'Porkylorky', elo: 1600)
+cat = Player.create(ign: 'EPICat', elo: 1600)
+www = Player.create(ign: 'www', elo: 1600)
+gyp = Player.create(ign: 'GeneralGyp', elo: 1600)
+oak = Player.create(ign: 'OakenShield', elo: 1600)
+
+# March Registrations
+tom_reg = Registration.create(player_id: tom.id, deck_id: 1)
+ben_reg = Registration.create(player_id: ben.id, deck_id: 1)
+mag_reg = Registration.create(player_id: mag.id, deck_id: 1)
+ham_reg = Registration.create(player_id: ham.id, deck_id: 1)
+atl_reg = Registration.create(player_id: atl.id, deck_id: 1)
+tat_reg = Registration.create(player_id: tat.id, deck_id: 1)
+ped_reg = Registration.create(player_id: ped.id, deck_id: 1)
+kro_reg = Registration.create(player_id: kro.id, deck_id: 1)
+sir_reg = Registration.create(player_id: sir.id, deck_id: 1)
+por_reg = Registration.create(player_id: por.id, deck_id: 1)
+cat_reg = Registration.create(player_id: cat.id, deck_id: 1)
+www_reg = Registration.create(player_id: www.id, deck_id: 1)
+gyp_reg = Registration.create(player_id: gyp.id, deck_id: 1)
+oak_reg = Registration.create(player_id: oak.id, deck_id: 1)
+
+# March Tournament
+t2 = Tournament.create(name: 'March 2020 Monthly Digital', format: 'Constructed', date: DateTime.new(2020, 3, 28))
+
+# March Round 1
+Match.create(tournament_id: t2.id, winner: tom_reg, loser: ped_reg, round: '1')
+Match.create(tournament_id: t2.id, winner: ben_reg, loser: kro_reg, round: '1')
+Match.create(tournament_id: t2.id, winner: sir_reg, loser: mag_reg, round: '1')
+Match.create(tournament_id: t2.id, winner: ham_reg, loser: por_reg, round: '1')
+Match.create(tournament_id: t2.id, winner: www_reg, loser: cat_reg, round: '1')
+Match.create(tournament_id: t2.id, winner: atl_reg, loser: gyp_reg, round: '1')
+Match.create(tournament_id: t2.id, winner: tat_reg, loser: oak_reg, round: '1')
+# March Round 2
+Match.create(tournament_id: t2.id, winner: tom_reg, loser: www_reg, round: '2')
+Match.create(tournament_id: t2.id, winner: tat_reg, loser: sir_reg, round: '2')
+Match.create(tournament_id: t2.id, winner: atl_reg, loser: ben_reg, round: '2')
+Match.create(tournament_id: t2.id, winner: ped_reg, loser: ham_reg, round: '2')
+Match.create(tournament_id: t2.id, winner: mag_reg, loser: oak_reg, round: '2')
+Match.create(tournament_id: t2.id, winner: cat_reg, loser: kro_reg, round: '2')
+Match.create(tournament_id: t2.id, winner: por_reg, loser: gyp_reg, round: '2')
+# March Round 3
+Match.create(tournament_id: t2.id, winner: atl_reg, loser: tom_reg, round: '3')
+Match.create(tournament_id: t2.id, winner: www_reg, loser: tat_reg, round: '3')
+Match.create(tournament_id: t2.id, winner: ped_reg, loser: sir_reg, round: '3')
+Match.create(tournament_id: t2.id, winner: ben_reg, loser: ham_reg, round: '3')
+Match.create(tournament_id: t2.id, winner: mag_reg, loser: cat_reg, round: '3')
+Match.create(tournament_id: t2.id, winner: oak_reg, loser: por_reg, round: '3')
+Match.create(tournament_id: t2.id, winner: gyp_reg, loser: kro_reg, round: '3')
+# March Round 4
+Match.create(tournament_id: t2.id, winner: www_reg, loser: atl_reg, round: '4')
+Match.create(tournament_id: t2.id, winner: tom_reg, loser: ben_reg, round: '4')
+Match.create(tournament_id: t2.id, winner: tat_reg, loser: ped_reg, round: '4')
+Match.create(tournament_id: t2.id, winner: ham_reg, loser: mag_reg, round: '4')
+Match.create(tournament_id: t2.id, winner: oak_reg, loser: sir_reg, round: '4')
+Match.create(tournament_id: t2.id, winner: gyp_reg, loser: cat_reg, round: '4')
+Match.create(tournament_id: t2.id, winner: por_reg, loser: kro_reg, round: '4')
+# March Semifinals
+Match.create(tournament_id: t2.id, winner: tat_reg, loser: atl_reg, round: 'semifinals')
+Match.create(tournament_id: t2.id, winner: tom_reg, loser: www_reg, round: 'semifinals')
+# March Finals
+Match.create(tournament_id: t2.id, winner: tom_reg, loser: tat_reg, round: 'finals')
+
 # # Closed Alpha Tournaments
 # atl = Player.create(ign: 'Atlanta', elo: 1600)
 # ben = Player.create(name: 'Ben Sullivan', ign: 'BeneBeats', elo: 1600)

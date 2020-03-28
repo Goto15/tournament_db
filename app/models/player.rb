@@ -10,6 +10,8 @@ class Player < ActiveRecord::Base
   has_many :matches, through: :registrations
   has_many :decks, through: :registrations
 
+  validates :ign, uniqueness: true
+
   def all_losses
     self.registrations.map do |reg|
       Match.where(loser: reg).map do |match|

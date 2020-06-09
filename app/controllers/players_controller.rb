@@ -11,27 +11,25 @@ class PlayersController < ApplicationController
 
       player_array = []
 
-      if stale?(player_tournaments)
-        all_players.each do |player|
-          player_array <<
-            {
-              id: player.id,
-              ign: player.ign,
-              elo: player.elo,
-              win_percentage: player.win_percentage,
-              match_count: player.all_matches.count,
-              wins: player.all_wins.count,
-              losses: player.all_losses.count,
-              num_tournaments: player.all_tournaments.count,
-              tournament_wins: player_tournaments.select{ |tournament| tournament.winner == player.ign }.count,
-              top_8s: player_tournaments.select{ |tournament| tournament.top_8.include?(player.ign) }.count
-            }
-        end
-
-        Rails.cache.write('players_data', player_array, expires_in: 6.days)
-
-        render json: player_array
+      all_players.each do |player|
+        player_array <<
+          {
+            id: player.id,
+            ign: player.ign,
+            elo: player.elo,
+            win_percentage: player.win_percentage,
+            match_count: player.all_matches.count,
+            wins: player.all_wins.count,
+            losses: player.all_losses.count,
+            num_tournaments: player.all_tournaments.count,
+            tournament_wins: player_tournaments.select{ |tournament| tournament.winner == player.ign }.count,
+            top_8s: player_tournaments.select{ |tournament| tournament.top_8.include?(player.ign) }.count
+          }
       end
+
+      Rails.cache.write('players_data', player_array, expires_in: 1.minute)
+
+      render json: player_array
     else
       players_array = Rails.cache.read('players_data')
       render json: players_array

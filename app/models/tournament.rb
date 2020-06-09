@@ -31,8 +31,6 @@ class Tournament < ActiveRecord::Base
     end.flatten.compact.uniq
   end
 
-  # TODO: Reek is throwing a lot of code smells here, but refactoring
-  # would lessen the readability to me with my current skills (3/24/2020) 
   def top_8
     self.matches.map do |match|
       if $NON_SWISS_ROUNDS.include?(match.round)

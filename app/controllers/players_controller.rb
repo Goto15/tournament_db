@@ -7,23 +7,25 @@ class PlayersController < ApplicationController
 
     player_array = []
 
-    all_players.each do |player|
-      player_array <<
-        {
-          id: player.id,
-          ign: player.ign,
-          elo: player.elo,
-          win_percentage: player.win_percentage,
-          match_count: player.all_matches.count,
-          wins: player.all_wins.count,
-          losses: player.all_losses.count,
-          num_tournaments: player.all_tournaments.count,
-          tournament_wins: player_tournaments.select{ |tournament| tournament.winner == player.ign }.count,
-          top_8s: player_tournaments.select{ |tournament| tournament.top_8.include?(player.ign) }.count
-        }
-    end
+    if stale?(player_tournaments)
+      all_players.each do |player|
+        player_array <<
+          {
+            id: player.id,
+            ign: player.ign,
+            elo: player.elo,
+            win_percentage: player.win_percentage,
+            match_count: player.all_matches.count,
+            wins: player.all_wins.count,
+            losses: player.all_losses.count,
+            num_tournaments: player.all_tournaments.count,
+            tournament_wins: player_tournaments.select{ |tournament| tournament.winner == player.ign }.count,
+            top_8s: player_tournaments.select{ |tournament| tournament.top_8.include?(player.ign) }.count
+          }
+      end
 
-    render json: player_array
+      render json: player_array
+    end
   end
 
   def show

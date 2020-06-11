@@ -45,14 +45,16 @@ ActiveRecord::Schema.define(version: 7) do
   create_table "players", force: :cascade do |t|
     t.string "name"
     t.string "ign"
-    t.float "elo"
+    t.float "elo", default: 1600.0
+    t.integer "wins", default: 0
+    t.integer "losses", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "registrations", force: :cascade do |t|
     t.integer "player_id"
-    t.integer "deck_id"
+    t.integer "deck_id", default: 1
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

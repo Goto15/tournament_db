@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 7) do
     t.float "elo", default: 1600.0
     t.integer "wins", default: 0
     t.integer "losses", default: 0
+    t.float "win_percentage", default: 50.0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

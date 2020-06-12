@@ -30,34 +30,35 @@ module EcgApi
     )
 
     # Run the Elo calculations and updates
-    config.after_initialize do
-      EloRating.k_factor = 36
+    # config.after_initialize do
+    #   EloRating.k_factor = 36
 
-      # Reset all player's ratings to avoid double calculations
-      Player.all.each do |player|
-        player.elo = 1600
-        player.save
-      end
+    #   # Reset all player's ratings to avoid double calculations
+    #   Player.all.each do |player|
+    #     player.elo = 1600
+    #     player.save
+    #   end
 
-      # Calculate all players Elo ratings
-      Match.all.each do |match|
-        loser = match.loser.player
-        winner = match.winner.player
+    #   # Calculate all players Elo ratings
+    #   Match.all.each do |match|
+    #     loser = match.loser.player
+    #     winner = match.winner.player
 
-        elo_match = EloRating::Match.new
-        elo_match.add_player(rating: loser.elo)
-        elo_match.add_player(rating: winner.elo, winner: true)
+    #     elo_match = EloRating::Match.new
+    #     elo_match.add_player(rating: loser.elo)
+    #     elo_match.add_player(rating: winner.elo, winner: true)
 
-        match.elo_delta = loser.elo - elo_match.updated_ratings[0]
+    #     match.elo_delta = loser.elo - elo_match.updated_ratings[0]
 
-        loser.elo = elo_match.updated_ratings[0]
-        winner.elo = elo_match.updated_ratings[1]
+    #     loser.elo = elo_match.updated_ratings[0]
+    #     winner.elo = elo_match.updated_ratings[1]
 
-        match.save
-        loser.save
-        winner.save
-      end
-    end
+    #     match.save
+    #     loser.save
+    #     winner.save
+    #   end
+    #   puts 'Finished calculating Elo'
+    # end
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

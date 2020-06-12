@@ -40,9 +40,14 @@ gem 'elo_rating', '~> 1.0'
 # RuboCop: static code analyzer and code formatter
 gem 'rubocop', require: false
 
+# Call 'byebug' anywhere in the code to stop execution and get a debugger console
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'byebug', platform: :mri
+end
+
+# Run against the latest stable release
+group :development, :test do
+  gem 'rspec-rails', '~> 4.0.0'
 end
 
 group :development do

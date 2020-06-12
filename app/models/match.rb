@@ -36,16 +36,12 @@ class Match < ActiveRecord::Base
     }
   end
 
+  # TODO: break out into two methods. Currently does two things
   def update_player_record
-    # Find the winner and the loser and update their records accordingly
-    # Ben Sullivan Jun 11 2020
-    winner = Player.find(self.winner.player.id)
-    loser = Player.find(self.loser.player.id)
+    Player.find(self.winner.player.id).add_win
+    Player.find(self.loser.player.id).add_loss
 
-    winner.wins += 1
-    loser.losses += 1
-
-    winner.save
-    loser.save
+    Player.find(self.winner.player.id).calculate_win_percentage
+    Player.find(self.loser.player.id).calculate_win_percentage
   end
 end

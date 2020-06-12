@@ -6,11 +6,23 @@
 # that be compared against others. 
 
 class Player < ActiveRecord::Base
+  # Relationships
   has_many :registrations
   has_many :matches, through: :registrations
   has_many :decks, through: :registrations
 
+  # Validations
   validates :ign, uniqueness: true
+
+  def add_loss
+    self.losses += 1
+    self.save
+  end
+
+  def add_win
+    self.wins += 1
+    self.save
+  end
 
   def all_losses
     self.registrations.map do |reg|
@@ -20,8 +32,9 @@ class Player < ActiveRecord::Base
     end.flatten
   end
 
+  # Needs to be rewritten since wins and losses are ints
   def all_matches
-    (self.all_wins + self.all_losses).map do |match|
+    (self.wins + self.losses).map do |match|
       match
     end
   end
@@ -38,14 +51,15 @@ class Player < ActiveRecord::Base
     end.flatten
   end
 
+  def calculate_win_percentage
+    self.win_percentage = ((self.wins.to_f / (self.wins + self.losses)) * 100).round(2)
+    self.save
+  end
+
   def get_opponent(match)
     winner_ign = match.winner_ign
     loser_ign = match.loser_ign
 
     self.ign == winner_ign ? loser_ign : winner_ign
-  end
-
-  def win_percentage
-    ((self.all_wins.count / self.all_matches.count.to_f) * 100).round(2)
   end
 end

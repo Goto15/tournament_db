@@ -6,6 +6,7 @@ class CreatePlayers < ActiveRecord::Migration[6.0]
       t.float :elo, default: 1600
       t.integer :wins, default: 0
       t.integer :losses, default: 0
+      t.float :win_percentage, default: 50
 
       t.timestamps
     end

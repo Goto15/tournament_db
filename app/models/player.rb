@@ -13,6 +13,9 @@ class Player < ActiveRecord::Base
 
   # Validations
   validates :ign, uniqueness: true
+  validates :wins, numericality: {greater_than_or_equal_to: 0}
+  validates :losses, numericality: {greater_than_or_equal_to: 0}
+  validates :win_percentage, numericality: {greater_than_or_equal_to: 0}
 
   def add_loss
     self.losses += 1
@@ -32,15 +35,22 @@ class Player < ActiveRecord::Base
     end.flatten
   end
 
-  # Needs to be rewritten since wins and losses are ints
   def all_matches
-    (self.wins + self.losses).map do |match|
-      match
-    end
+    self.all_tournaments.map do |tourney|
+      tourney.matches.map do |match|
+        if(self.ign == match.winner_ign || self.ign == match.loser_ign)
+          match
+        end
+      end
+    end.flatten.compact
   end
 
   def all_tournaments
-    self.all_matches.map(&:tournament).uniq
+    Tournament.all.map do |tourney|
+      if (tourney.players.include?(self.ign))
+        tourney
+      end
+    end.compact
   end
 
   def all_wins

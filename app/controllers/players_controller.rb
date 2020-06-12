@@ -1,17 +1,29 @@
 # frozen_string_literal: true
 
 class PlayersController < ApplicationController
-
   def index
     player_cache = Rails.cache.read('players_data')
 
     if(player_cache == nil)
       all_players = Player.all
       player_tournaments = Tournament.all
-
       player_array = []
 
+      
+
       all_players.each do |player|
+        tournament_wins = 0
+        top_8s = 0
+
+        player_tournaments.select do |tournament|
+          if tournament.winner == player.ign
+            tournament_wins += 1
+          end 
+          if tournament.top_8.include?(player.ign)
+            top_8s += 1
+          end
+        end
+
         player_array <<
           {
             id: player.id,
@@ -22,8 +34,8 @@ class PlayersController < ApplicationController
             wins: player.wins,
             losses: player.losses,
             num_tournaments: player.registrations.count,
-            tournament_wins: player_tournaments.select{ |tournament| tournament.winner == player.ign }.count,
-            top_8s: player_tournaments.select{ |tournament| tournament.top_8.include?(player.ign) }.count
+            tournament_wins: tournament_wins,
+            top_8s: top_8s
           }
       end
 
@@ -34,6 +46,43 @@ class PlayersController < ApplicationController
       players_array = Rails.cache.read('players_data')
       render json: players_array
     end
+  end
+
+  def index_test
+    all_players = Player.all
+      player_tournaments = Tournament.all
+      player_array = []
+
+      
+
+      all_players.each do |player|
+        tournament_wins = 0
+        top_8s = 0
+
+        player_tournaments.select do |tournament|
+          if tournament.winner == player.ign
+            tournament_wins += 1
+          end 
+          if tournament.top_8.include?(player.ign)
+            top_8s += 1
+          end
+        end
+
+        player_array <<
+          {
+            id: player.id,
+            ign: player.ign,
+            elo: player.elo,
+            win_percentage: player.win_percentage,
+            match_count: player.wins + player.losses,
+            wins: player.wins,
+            losses: player.losses,
+            num_tournaments: player.registrations.count,
+            tournament_wins: tournament_wins,
+            top_8s: top_8s
+          }
+      end
+      player_array
   end
 
   def show

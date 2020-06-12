@@ -67,9 +67,6 @@ class Player < ActiveRecord::Base
   end
 
   def get_opponent(match)
-    winner_ign = match.winner_ign
-    loser_ign = match.loser_ign
-
-    self.ign == winner_ign ? loser_ign : winner_ign
+    self == match.winner.player ? match.loser.player : match.winner.player
   end
 end

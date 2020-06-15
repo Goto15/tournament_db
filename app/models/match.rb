@@ -36,12 +36,27 @@ class Match < ActiveRecord::Base
     }
   end
 
-  # TODO: break out into two methods. Currently does two things
+  # TODO: This should be broken out soon it is doing waaaaay too much
+  # Right now Tournaments are reported in order, but this doesn't do order 
+  # checking. That will need to be done in the future.
   def update_player_record
-    Player.find(self.winner.player.id).add_win
-    Player.find(self.loser.player.id).add_loss
+    winner = self.winner.player
+    loser = self.loser.player
 
-    Player.find(self.winner.player.id).calculate_win_percentage
-    Player.find(self.loser.player.id).calculate_win_percentage
+    Player.find(winner.id).add_win
+    Player.find(loser.id).add_loss
+
+    EloRating.k_factor = 36
+    elo_match = EloRating::Match.new
+    elo_match.add_player(rating: winner.elo, winner: true)
+    elo_match.add_player(rating: loser.elo)
+
+    winner.update_elo(elo_match.updated_ratings[0])
+    loser.update_elo(elo_match.updated_ratings[1])
+
+    self.elo_delta = loser.elo - elo_match.updated_ratings[0]
+
+    Player.find(winner.id).calculate_win_percentage
+    Player.find(loser.id).calculate_win_percentage
   end
 end

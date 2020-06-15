@@ -27,7 +27,7 @@ class Tournament < ActiveRecord::Base
 
   def players
     self.matches.where(round: '1').map do |match|
-      [match.winner_ign, match.loser_ign]
+      [match.winner.player, match.loser.player]
     end.flatten.uniq
   end
 

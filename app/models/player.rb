@@ -37,17 +37,13 @@ class Player < ActiveRecord::Base
 
   def all_matches
     self.all_tournaments.map do |tourney|
-      tourney.matches.map do |match|
-        if(self.ign == match.winner_ign || self.ign == match.loser_ign)
-          match
-        end
-      end
+      self.tournament_matches(tourney)
     end.flatten.compact
   end
 
   def all_tournaments
     Tournament.all.map do |tourney|
-      if (tourney.players.include?(self.ign))
+      if (tourney.players.include?(self))
         tourney
       end
     end.compact
@@ -67,6 +63,21 @@ class Player < ActiveRecord::Base
   end
 
   def get_opponent(match)
-    self == match.winner.player ? match.loser.player : match.winner.player
+    winner = match.winner_ign
+    loser = match.loser_ign
+    self.ign == winner ? loser : winner
+  end
+
+  def tournament_matches(tournament)
+    tournament.matches.map do |match|
+      if(self == match.winner.player || self == match.loser.player)
+        match
+      end
+    end.compact
+  end
+
+  def update_elo(new_elo)
+    self.elo = new_elo
+    self.save
   end
 end

@@ -1,17 +1,27 @@
 # frozen_string_literal: true
 
 class PlayersController < ApplicationController
-
   def index
     player_cache = Rails.cache.read('players_data')
 
     if(player_cache == nil)
       all_players = Player.all
       player_tournaments = Tournament.all
-
       player_array = []
 
       all_players.each do |player|
+        tournament_wins = 0
+        top_8s = 0
+
+        player_tournaments.select do |tournament|
+          if tournament.winner == player.ign
+            tournament_wins += 1
+          end 
+          if tournament.top_8.include?(player.ign)
+            top_8s += 1
+          end
+        end
+
         player_array <<
           {
             id: player.id,
@@ -22,8 +32,8 @@ class PlayersController < ApplicationController
             wins: player.wins,
             losses: player.losses,
             num_tournaments: player.registrations.count,
-            tournament_wins: player_tournaments.select{ |tournament| tournament.winner == player.ign }.count,
-            top_8s: player_tournaments.select{ |tournament| tournament.top_8.include?(player.ign) }.count
+            tournament_wins: tournament_wins,
+            top_8s: top_8s
           }
       end
 
@@ -38,29 +48,29 @@ class PlayersController < ApplicationController
 
   def show
     player = Player.find(params[:id])
+    player_tournaments = player.all_tournaments
+    player_matches = player.all_matches
 
     matches = {}
 
-    player.all_tournaments.each do |tournament|
+    player_tournaments.each do |tournament|
       matches[tournament.name] =
-        player.all_matches.map do |match|
-          if match.tournament == tournament
+        player.tournament_matches(tournament).map do |match|
             {
               round: match.round,
               opponent: player.get_opponent(match),
-              result: match.winner.player.ign == player.ign ? 'won' : 'lost',
+              result: match.winner.player == player ? 'won' : 'lost',
               elo_delta: match.elo_delta
             }
-          end
-        end.compact
+        end
     end
 
     player_info = {
       player: player.ign,
       elo: player.elo,
       win_percentage: player.win_percentage,
-      match_count: player.all_matches.count,
-      num_tournaments: player.all_tournaments.count,
+      match_count: player_matches.count,
+      num_tournaments: player_tournaments.count,
       matches: matches
     }
 

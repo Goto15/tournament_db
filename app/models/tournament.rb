@@ -26,9 +26,9 @@ class Tournament < ActiveRecord::Base
   end
 
   def players
-    self.matches.map do |match|
-      [match.winner_ign, match.loser_ign]
-    end.flatten.compact.uniq
+    self.matches.where(round: '1').map do |match|
+      [match.winner.player, match.loser.player]
+    end.flatten.uniq
   end
 
   def top_8
@@ -43,11 +43,6 @@ class Tournament < ActiveRecord::Base
     # find_by returns a falsy value if there is no 'finals' round
     # for tournament. So in the case of something like the 'Kong 
     # Stress Tournament' there is no winner and therefore 'No finals.'
-    
-    # As a readability note: I usually keep away from ternary
-    # operators. However I noticed that they were hard to read to my
-    # eye. So I've started writing them, when I can, to improve my own
-    # reading and writing comprehension.
     winner = matches.find_by(round: 'finals').winner_ign
     winner ? winner : 'No finals'
   end

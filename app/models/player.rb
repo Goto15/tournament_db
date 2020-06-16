@@ -36,9 +36,15 @@ class Player < ActiveRecord::Base
   end
 
   def all_matches
-    self.all_tournaments.map do |tourney|
-      self.tournament_matches(tourney)
-    end.flatten.compact
+    self.all_losses + self.all_wins
+  end
+
+  def all_wins
+    self.registrations.map do |reg|
+      Match.where(winner: reg).map do |match|
+        match
+      end
+    end.flatten
   end
 
   def all_tournaments

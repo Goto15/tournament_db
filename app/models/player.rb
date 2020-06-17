@@ -28,39 +28,23 @@ class Player < ActiveRecord::Base
   end
 
   def all_losses
-    self.registrations.map do |reg|
-      Match.where(loser: reg).map do |match|
-        match
-      end
-    end.flatten
+    Match.where(loser: self.registrations)
   end
 
   def all_matches
-    self.all_losses + self.all_wins
-  end
-
-  def all_wins
-    self.registrations.map do |reg|
-      Match.where(winner: reg).map do |match|
-        match
-      end
-    end.flatten
+    Match.where(winner: self.registrations).or(Match.where(loser: self.registrations))
   end
 
   def all_tournaments
     Tournament.all.map do |tourney|
-      if (tourney.players.include?(self))
+      if tourney.players.include?(self)
         tourney
       end
     end.compact
   end
 
   def all_wins
-    self.registrations.map do |reg|
-      Match.where(winner: reg).map do |match|
-        match
-      end
-    end.flatten
+      Match.where(winner: self.registrations)
   end
 
   def calculate_win_percentage
@@ -70,16 +54,11 @@ class Player < ActiveRecord::Base
 
   def get_opponent(match)
     winner = match.winner_ign
-    loser = match.loser_ign
-    self.ign == winner ? loser : winner
+    self.ign == winner ? match.loser : winner
   end
 
   def tournament_matches(tournament)
-    tournament.matches.map do |match|
-      if(self == match.winner.player || self == match.loser.player)
-        match
-      end
-    end.compact
+    tournament.matches.where(winner_id: self.id).or(tournament.matches.where(loser_id: self.id))
   end
 
   def update_elo(new_elo)

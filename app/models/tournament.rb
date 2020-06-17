@@ -26,24 +26,19 @@ class Tournament < ActiveRecord::Base
   end
 
   def players
-    self.matches.where(round: '1').map do |match|
-      [match.winner.player, match.loser.player]
-    end.flatten.uniq
+    Player.where(id: 
+      Registration.where(id: 
+        self.matches.where(round: '1').pluck(:winner_id, :loser_id).flatten.uniq))
   end
 
   def top_8
-    self.matches.map do |match|
-      if $NON_SWISS_ROUNDS.include?(match.round)
-        [match.winner_ign, match.loser_ign]
-      end
-    end.flatten.compact.uniq
+    Player.where(id: 
+      Registration.where(id: 
+        self.matches.where(round: $NON_SWISS_ROUNDS).pluck(:winner_id, :loser_id).flatten.compact.uniq))
   end
 
   def winner
-    # find_by returns a falsy value if there is no 'finals' round
-    # for tournament. So in the case of something like the 'Kong 
-    # Stress Tournament' there is no winner and therefore 'No finals.'
-    winner = matches.find_by(round: 'finals').winner_ign
+    winner = self.matches.find_by(round: 'finals').winner_ign
     winner ? winner : 'No finals'
   end
 

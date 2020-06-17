@@ -12,10 +12,10 @@ class Player < ActiveRecord::Base
   has_many :decks, through: :registrations
 
   # Validations
-  validates :ign, uniqueness: true
-  validates :wins, numericality: {greater_than_or_equal_to: 0}
-  validates :losses, numericality: {greater_than_or_equal_to: 0}
-  validates :win_percentage, numericality: {greater_than_or_equal_to: 0}
+  validates :ign, uniqueness: true, presence: true
+  validates :wins, numericality: { greater_than_or_equal_to: 0 }
+  validates :losses, numericality: { greater_than_or_equal_to: 0 }
+  validates :win_percentage, numericality: { greater_than_or_equal_to: 0 }
 
   def add_loss
     self.losses += 1
@@ -36,9 +36,15 @@ class Player < ActiveRecord::Base
   end
 
   def all_matches
-    self.all_tournaments.map do |tourney|
-      self.tournament_matches(tourney)
-    end.flatten.compact
+    self.all_losses + self.all_wins
+  end
+
+  def all_wins
+    self.registrations.map do |reg|
+      Match.where(winner: reg).map do |match|
+        match
+      end
+    end.flatten
   end
 
   def all_tournaments

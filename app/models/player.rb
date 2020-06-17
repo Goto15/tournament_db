@@ -12,10 +12,10 @@ class Player < ActiveRecord::Base
   has_many :decks, through: :registrations
 
   # Validations
-  validates :ign, uniqueness: true
-  validates :wins, numericality: {greater_than_or_equal_to: 0}
-  validates :losses, numericality: {greater_than_or_equal_to: 0}
-  validates :win_percentage, numericality: {greater_than_or_equal_to: 0}
+  validates :ign, uniqueness: true, presence: true
+  validates :wins, numericality: { greater_than_or_equal_to: 0 }
+  validates :losses, numericality: { greater_than_or_equal_to: 0 }
+  validates :win_percentage, numericality: { greater_than_or_equal_to: 0 }
 
   def add_loss
     self.losses += 1

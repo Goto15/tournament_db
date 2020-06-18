@@ -10,13 +10,9 @@ class PlayersController < ApplicationController
       player_array = []
 
       all_players.each do |player|
-        tournament_wins = 0
         top_8s = 0
 
         player_tournaments.select do |tournament|
-          if tournament.winner == player.ign
-            tournament_wins += 1
-          end 
           if tournament.top_8.include?(player.ign)
             top_8s += 1
           end
@@ -32,8 +28,8 @@ class PlayersController < ApplicationController
             wins: player.wins,
             losses: player.losses,
             num_tournaments: player.registrations.count,
-            tournament_wins: tournament_wins,
-            top_8s: top_8s
+            tournament_wins: player.tournament_wins,
+            # top_8s: top_8s
           }
       end
 
@@ -49,11 +45,9 @@ class PlayersController < ApplicationController
   def show
     player = Player.find(params[:id])
     player_tournaments = player.all_tournaments
-    player_matches = player.all_matches
 
     matches = {}
-
-    player_tournaments.each do |tournament|
+    player_tournaments.map do |tournament|
       matches[tournament.name] =
         player.tournament_matches(tournament).map do |match|
             {
@@ -69,7 +63,6 @@ class PlayersController < ApplicationController
       player: player.ign,
       elo: player.elo,
       win_percentage: player.win_percentage,
-      match_count: player_matches.count,
       num_tournaments: player_tournaments.count,
       matches: matches
     }

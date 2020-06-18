@@ -14,7 +14,7 @@ class Tournament < ActiveRecord::Base
 
   # For now only top 2, 4, 8 rounds are broken out here. This could
   # be useful in the future for things such as top 8 win% and breaking
-  # out non-standard rounds. Could possibly be and ENUM
+  # out non-standard rounds. Could possibly be an ENUM
   $NON_SWISS_ROUNDS = %w[quarterfinals semifinals finals]
 
   def format_date
@@ -26,9 +26,7 @@ class Tournament < ActiveRecord::Base
   end
 
   def players
-    Player.where(id: 
-      Registration.where(id: 
-        self.matches.where(round: '1').pluck(:winner_id, :loser_id).flatten.uniq))
+    Player.where(id: Registration.where(id: self.matches.where(round: '1').pluck(:winner_id, :loser_id).flatten).pluck(:player_id))
   end
 
   def top_8

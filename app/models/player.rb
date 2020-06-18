@@ -54,11 +54,11 @@ class Player < ActiveRecord::Base
 
   def get_opponent(match)
     winner = match.winner_ign
-    self.ign == winner ? match.loser : winner
+    self.ign == winner ? match.loser_ign : winner
   end
 
   def tournament_matches(tournament)
-    tournament.matches.where(winner_id: self.id).or(tournament.matches.where(loser_id: self.id))
+    tournament.matches.where(winner_id: self.registrations).or(tournament.matches.where(loser_id: self.registrations))
   end
 
   def update_elo(new_elo)

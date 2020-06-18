@@ -13,9 +13,18 @@ class Match < ActiveRecord::Base
 
   # Calculated fields
   before_save :update_player_record
+  before_save :is_winner
 
   def all_matches
     Match.all
+  end
+
+  def is_winner
+    if self.round == 'finals'
+      winner = self.winner.player
+      winner.tournament_wins += 1
+      winner.save
+    end
   end
 
   def winner_ign
@@ -51,10 +60,10 @@ class Match < ActiveRecord::Base
     elo_match.add_player(rating: winner.elo, winner: true)
     elo_match.add_player(rating: loser.elo)
 
+    self.elo_delta = loser.elo - elo_match.updated_ratings[1]
+
     winner.update_elo(elo_match.updated_ratings[0])
     loser.update_elo(elo_match.updated_ratings[1])
-
-    self.elo_delta = loser.elo - elo_match.updated_ratings[0]
 
     Player.find(winner.id).calculate_win_percentage
     Player.find(loser.id).calculate_win_percentage

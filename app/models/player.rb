@@ -17,13 +17,29 @@ class Player < ActiveRecord::Base
   validates :losses, numericality: { greater_than_or_equal_to: 0 }
   validates :win_percentage, numericality: { greater_than_or_equal_to: 0 }
 
+  # The add_thing methods should be generalized to cut down on code repitition
   def add_loss
     self.losses += 1
     self.save
   end
 
+  def add_participation
+    self.num_tournaments += 1
+    self.save
+  end
+
   def add_win
     self.wins += 1
+    self.save
+  end
+
+  def add_top_8
+    self.top_8s += 1
+    self.save
+  end
+
+  def add_tournament_win
+    self.tournament_wins += 1
     self.save
   end
 

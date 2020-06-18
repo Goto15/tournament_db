@@ -155,6 +155,7 @@ tat_reg = Registration.create(player_id: tat.id)
 atl_reg = Registration.create(player_id: atl.id)
 was_reg = Registration.create(player_id: was.id)
 bmc_reg = Registration.create(player_id: bmc.id)
+epi_reg = Registration.create(player_id: epi.id)
 
 # April Round 1
 Match.create(tournament_id: t3.id, winner: por_reg, loser: esc_reg, round: '1')
@@ -249,8 +250,6 @@ Match.create(tournament_id: t4.id, winner: atl_reg, loser: ben_reg, round: 'semi
 Match.create(tournament_id: t4.id, winner: epi_reg, loser: nat_reg, round: 'semifinals')
 # May Finals
 Match.create(tournament_id: t4.id, winner: epi_reg, loser: atl_reg, round: 'finals')
-
-Player.all.each{ |p| puts p.ign, p.wins}
 
 # # Closed Alpha Tournaments
 # atl = Player.create(ign: 'Atlanta' )

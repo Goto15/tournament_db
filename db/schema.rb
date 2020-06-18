@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 7) do
     t.integer "wins", default: 0
     t.integer "losses", default: 0
     t.float "win_percentage", default: 50.0
+    t.integer "num_tournaments", default: 0
     t.integer "tournament_wins", default: 0
     t.integer "top_8s", default: 0
     t.datetime "created_at", precision: 6, null: false

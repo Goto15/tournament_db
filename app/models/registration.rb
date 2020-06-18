@@ -7,4 +7,11 @@ class Registration < ActiveRecord::Base
   belongs_to :player
   belongs_to :deck
   has_many :matches
+
+  # Calculated Fields
+  before_save :add_player_participation
+
+  def add_player_participation
+    self.player.add_participation
+  end
 end

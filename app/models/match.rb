@@ -14,6 +14,10 @@ class Match < ActiveRecord::Base
   # Calculated fields
   before_save :update_player_record
   before_save :is_winner
+  before_save :made_top_8
+
+  # Top X rounds
+  $NON_SWISS_ROUNDS = %w[quarterfinals semifinals finals]
 
   def all_matches
     Match.all
@@ -24,6 +28,21 @@ class Match < ActiveRecord::Base
       winner = self.winner.player
       winner.tournament_wins += 1
       winner.save
+    end
+  end
+
+  def made_top_8
+    cut_round = self.tournament.matches.where(round: $NON_SWISS_ROUNDS).pluck(:round)
+    if self.round == 'quarterfinals'
+      self.winner.player.add_top_8
+      self.loser.player.add_top_8
+    end
+    if self.round == 'semifinals' && !cut_round.include?('quarterfinals')
+      self.winner.player.add_top_8
+      self.loser.player.add_top_8
+    elsif self.round == 'finals' && !cut_round.include?('semifinals')
+      self.winner.player.add_top_8
+      self.loser.player.add_top_8
     end
   end
 

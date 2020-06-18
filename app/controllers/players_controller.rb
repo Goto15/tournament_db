@@ -10,13 +10,13 @@ class PlayersController < ApplicationController
       player_array = []
 
       all_players.each do |player|
-        top_8s = 0
+        # top_8s = 0
 
-        player_tournaments.select do |tournament|
-          if tournament.top_8.include?(player.ign)
-            top_8s += 1
-          end
-        end
+        # player_tournaments.select do |tournament|
+        #   if tournament.top_8.include?(player.ign)
+        #     top_8s += 1
+        #   end
+        # end
 
         player_array <<
           {
@@ -29,7 +29,7 @@ class PlayersController < ApplicationController
             losses: player.losses,
             num_tournaments: player.registrations.count,
             tournament_wins: player.tournament_wins,
-            # top_8s: top_8s
+            top_8s: player.top_8s
           }
       end
 

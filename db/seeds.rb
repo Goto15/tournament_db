@@ -250,8 +250,6 @@ Match.create(tournament_id: t4.id, winner: epi_reg, loser: nat_reg, round: 'semi
 # May Finals
 Match.create(tournament_id: t4.id, winner: epi_reg, loser: atl_reg, round: 'finals')
 
-Player.all.each{ |p| puts p.ign, p.wins}
-
 # # Closed Alpha Tournaments
 # atl = Player.create(ign: 'Atlanta' )
 # ben = Player.create(name: 'Ben Sullivan', ign: 'BeneBeats' )

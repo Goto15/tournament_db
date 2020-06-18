@@ -3,39 +3,10 @@
 class PlayersController < ApplicationController
   def index
     player_cache = Rails.cache.read('players_data')
-
     if(player_cache == nil)
-      all_players = Player.all
-      player_tournaments = Tournament.all
-      player_array = []
-
-      all_players.each do |player|
-        # top_8s = 0
-
-        # player_tournaments.select do |tournament|
-        #   if tournament.top_8.include?(player.ign)
-        #     top_8s += 1
-        #   end
-        # end
-
-        player_array <<
-          {
-            id: player.id,
-            ign: player.ign,
-            elo: player.elo,
-            win_percentage: player.win_percentage,
-            match_count: player.wins + player.losses,
-            wins: player.wins,
-            losses: player.losses,
-            num_tournaments: player.registrations.count,
-            tournament_wins: player.tournament_wins,
-            top_8s: player.top_8s
-          }
-      end
-
-      Rails.cache.write('players_data', player_array, expires_in: 1.minute)
-
-      render json: player_array
+      players_array = Player.all
+      Rails.cache.write('players_data', Player.all, expires_in: 1.minute)
+      render json: players_array
     else
       players_array = Rails.cache.read('players_data')
       render json: players_array

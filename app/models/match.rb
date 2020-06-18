@@ -25,25 +25,23 @@ class Match < ActiveRecord::Base
 
   def is_winner
     if self.round == 'finals'
-      winner = self.winner.player
-      winner.tournament_wins += 1
-      winner.save
+      self.winner.player.add_tournament_win
     end
   end
 
   def made_top_8
     cut_round = self.tournament.matches.where(round: $NON_SWISS_ROUNDS).pluck(:round)
     if self.round == 'quarterfinals'
-      self.winner.player.add_top_8
-      self.loser.player.add_top_8
-    end
-    if self.round == 'semifinals' && !cut_round.include?('quarterfinals')
-      self.winner.player.add_top_8
-      self.loser.player.add_top_8
+      self.players.each{ |p| p.add_top_8 }
+    elsif self.round == 'semifinals' && !cut_round.include?('quarterfinals')
+      self.players.each{ |p| p.add_top_8 }
     elsif self.round == 'finals' && !cut_round.include?('semifinals')
-      self.winner.player.add_top_8
-      self.loser.player.add_top_8
+      self.players.each{ |p| p.add_top_8 }
     end
+  end
+
+  def players
+    [self.winner.player, self.loser.player]
   end
 
   def winner_ign

@@ -23,6 +23,11 @@ class Player < ActiveRecord::Base
     self.save
   end
 
+  def add_participation
+    self.num_tournaments += 1
+    self.save
+  end
+
   def add_win
     self.wins += 1
     self.save
@@ -30,6 +35,11 @@ class Player < ActiveRecord::Base
 
   def add_top_8
     self.top_8s += 1
+    self.save
+  end
+
+  def add_tournament_win
+    self.tournament_wins += 1
     self.save
   end
 

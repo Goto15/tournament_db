@@ -14,11 +14,14 @@ class PlayersController < ApplicationController
   end
 
   def show
+    render json: Player.find(params[:id])
+  end
+
+  def matches
     player = Player.find(params[:id])
-    player_tournaments = player.all_tournaments
 
     matches = {}
-    player_tournaments.map do |tournament|
+    player.all_tournaments.map do |tournament|
       matches[tournament.name] =
         player.tournament_matches(tournament).map do |match|
             {
@@ -32,32 +35,10 @@ class PlayersController < ApplicationController
 
     player_info = {
       player: player.ign,
-      elo: player.elo,
-      win_percentage: player.win_percentage,
-      num_tournaments: player_tournaments.count,
       matches: matches
     }
 
     render json: player_info
-  end
-
-  def matches
-    player = Player.find(params[:id])
-
-    matches = {
-      player: player.ign,
-      matches: player.all_matches.map do |m|
-        {
-          id: m.id,
-          tournament: m.tournament.name,
-          won: m.winner.player.ign == player.ign,
-          opponent: player.get_opponent(m),
-          round: m.round
-        }
-      end
-    }
-
-    render json: matches
   end
 
   def tournaments

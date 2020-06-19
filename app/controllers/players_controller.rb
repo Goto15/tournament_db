@@ -5,7 +5,7 @@ class PlayersController < ApplicationController
     player_cache = Rails.cache.read('players_data')
     if(player_cache == nil)
       players_array = Player.all
-      Rails.cache.write('players_data', Player.all, expires_in: 1.minute)
+      Rails.cache.write('players_data', players_array, expires_in: 1.minute)
       render json: players_array
     else
       players_array = Rails.cache.read('players_data')

@@ -19,28 +19,23 @@ class Player < ActiveRecord::Base
 
   # The add_thing methods should be generalized to cut down on code repitition
   def add_loss
-    self.losses += 1
-    self.save
+    self.update(losses: self.losses += 1)
   end
 
   def add_participation
-    self.num_tournaments += 1
-    self.save
+    self.update(num_tournaments: self.num_tournaments += 1)
   end
 
   def add_win
-    self.wins += 1
-    self.save
+    self.update(wins: self.wins += 1)
   end
 
   def add_top_8
-    self.top_8s += 1
-    self.save
+    self.update(top_8s: self.top_8s += 1)
   end
 
   def add_tournament_win
-    self.tournament_wins += 1
-    self.save
+    self.update(tournament_wins: self.tournament_wins += 1)
   end
 
   def all_losses
@@ -78,7 +73,6 @@ class Player < ActiveRecord::Base
   end
 
   def update_elo(new_elo)
-    self.elo = new_elo
-    self.save
+    self.update(elo: new_elo)
   end
 end

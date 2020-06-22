@@ -10,6 +10,10 @@
 # Secret file
 config/secrets.yml
 
+# Ignore key files
+config/cert.pem
+config/privkey.pem
+
 # Ignore bundler config.
 /.bundle
 

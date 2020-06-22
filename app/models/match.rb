@@ -12,9 +12,9 @@ class Match < ActiveRecord::Base
   belongs_to :tournament
 
   # Calculated fields
-  before_save :update_player_record
-  before_save :is_winner
-  before_save :made_top_8
+  before_create :update_player_record
+  before_create :is_winner
+  before_create :made_top_8
 
   # Top X rounds
   $NON_SWISS_ROUNDS = %w[quarterfinals semifinals finals]

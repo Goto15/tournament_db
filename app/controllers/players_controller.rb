@@ -4,12 +4,11 @@ class PlayersController < ApplicationController
   def index
     player_cache = Rails.cache.read('players_data')
     if(player_cache == nil)
-      players_array = Player.all
-      Rails.cache.write('players_data', players_array, expires_in: 1.minute)
-      render json: players_array
+      player_cache = Player.all
+      Rails.cache.write('players_data', player_cache, expires_in: 1.minute)
+      render json: player_cache
     else
-      players_array = Rails.cache.read('players_data')
-      render json: players_array
+      render json: player_cache
     end
   end
 

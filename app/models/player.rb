@@ -47,11 +47,7 @@ class Player < ActiveRecord::Base
   end
 
   def all_tournaments
-    Tournament.all.map do |tourney|
-      if tourney.players.include?(self)
-        tourney
-      end
-    end.compact
+    Tournament.all.select{|t| t.players.include?(self)}.compact
   end
 
   def all_wins
@@ -59,8 +55,7 @@ class Player < ActiveRecord::Base
   end
 
   def calculate_win_percentage
-    self.win_percentage = ((self.wins.to_f / (self.wins + self.losses)) * 100).round(2)
-    self.save
+    self.update(win_percentage: (self.wins.to_f / (self.wins + self.losses) * 100).round(2))
   end
 
   def get_opponent(match)

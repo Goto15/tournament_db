@@ -43,7 +43,8 @@ class Player < ActiveRecord::Base
   end
 
   def all_matches
-    Match.where(winner: self.registrations).or(Match.where(loser: self.registrations))
+    registrations = self.registrations
+    Match.where(winner: registrations).or(Match.where(loser: registrations))
   end
 
   def all_tournaments
@@ -63,11 +64,38 @@ class Player < ActiveRecord::Base
     self.ign == winner ? match.loser_ign : winner
   end
 
+  def max_elo_check(new_rating)
+    if new_rating > self.max_elo
+      self.update(max_elo: new_rating)
+    end
+  end
+
+  def max_constructed_elo_check(new_rating)
+    if new_rating > self.max_constructed_elo
+      self.update(max_constructed_elo: new_rating)
+    end
+  end
+
+  def max_dark_draft_elo_check(new_rating)
+    if new_rating > self.max_dark_draft_elo
+      self.update(max_dark_draft_elo: new_rating)
+    end
+  end
+
   def tournament_matches(tournament)
-    tournament.matches.where(winner_id: self.registrations).or(tournament.matches.where(loser_id: self.registrations))
+    registrations = self.registrations
+    tournament.matches.where(winner_id: registrations).or(tournament.matches.where(loser_id: registrations))
   end
 
   def update_elo(new_elo)
     self.update(elo: new_elo)
+  end
+
+  def update_dark_draft_elo(new_elo)
+    self.update(dark_draft_elo: new_elo)
+  end
+
+  def update_constructed_elo(new_elo)
+    self.update(constructed_elo: new_elo)
   end
 end

@@ -6,6 +6,7 @@ class CreateMatches < ActiveRecord::Migration[6.0]
       t.integer :loser_id
       t.float :elo_delta
       t.string :round
+      t.float :format_elo_delta
 
       t.timestamps
     end

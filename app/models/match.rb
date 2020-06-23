@@ -72,17 +72,55 @@ class Match < ActiveRecord::Base
     Player.find(winner.id).add_win
     Player.find(loser.id).add_loss
 
+    Player.find(winner.id).calculate_win_percentage
+    Player.find(loser.id).calculate_win_percentage
+
+    # General Elo update
     EloRating.k_factor = 36
     elo_match = EloRating::Match.new
     elo_match.add_player(rating: winner.elo, winner: true)
     elo_match.add_player(rating: loser.elo)
 
-    self.elo_delta = loser.elo - elo_match.updated_ratings[1]
+    new_winner_elo = elo_match.updated_ratings[0]
+    new_loser_elo = elo_match.updated_ratings[1]
 
-    winner.update_elo(elo_match.updated_ratings[0])
-    loser.update_elo(elo_match.updated_ratings[1])
+    self.elo_delta = loser.elo - new_loser_elo
 
-    Player.find(winner.id).calculate_win_percentage
-    Player.find(loser.id).calculate_win_percentage
+    winner.max_elo_check(new_winner_elo)
+
+    winner.update_elo(new_winner_elo)
+    loser.update_elo(new_loser_elo)
+
+    # Format Elo update
+    format_match = EloRating::Match.new
+
+    format = self.tournament.format
+    if format == 'Dark Draft'
+      format_match.add_player(rating: winner.dark_draft_elo, winner: true)
+      format_match.add_player(rating: loser.dark_draft_elo)
+
+      new_winner_elo = format_match.updated_ratings[0]
+      new_loser_elo = format_match.updated_ratings[1]
+
+      self.format_elo_delta = loser.dark_draft_elo - new_loser_elo
+
+      winner.max_dark_draft_elo_check(new_winner_elo)
+
+      winner.update_dark_draft_elo(new_winner_elo)
+      loser.update_dark_draft_elo(new_loser_elo)
+    elsif format == 'Constructed'
+      format_match.add_player(rating: winner.constructed_elo, winner: true)
+      format_match.add_player(rating: loser.constructed_elo)
+
+      new_winner_elo = format_match.updated_ratings[0]
+      new_loser_elo = format_match.updated_ratings[1]
+
+      self.format_elo_delta = loser.constructed_elo - new_loser_elo
+
+      winner.max_constructed_elo_check(new_winner_elo)
+f
+      winner.update_constructed_elo(new_winner_elo)
+      loser.update_constructed_elo(new_loser_elo)
+    end
   end
 end

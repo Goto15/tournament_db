@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 7) do
     t.integer "loser_id"
     t.float "elo_delta"
     t.string "round"
+    t.float "format_elo_delta"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -45,10 +46,15 @@ ActiveRecord::Schema.define(version: 7) do
   create_table "players", force: :cascade do |t|
     t.string "name"
     t.string "ign"
-    t.float "elo", default: 1600.0
     t.integer "wins", default: 0
     t.integer "losses", default: 0
     t.float "win_percentage", default: 50.0
+    t.float "elo", default: 1600.0
+    t.float "max_elo", default: 1600.0
+    t.float "dark_draft_elo", default: 1600.0
+    t.float "max_dark_draft_elo", default: 1600.0
+    t.float "constructed_elo", default: 1600.0
+    t.float "max_constructed_elo", default: 1600.0
     t.integer "num_tournaments", default: 0
     t.integer "tournament_wins", default: 0
     t.integer "top_8s", default: 0

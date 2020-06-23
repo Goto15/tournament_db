@@ -43,7 +43,8 @@ class Player < ActiveRecord::Base
   end
 
   def all_matches
-    Match.where(winner: self.registrations).or(Match.where(loser: self.registrations))
+    registrations = self.registrations
+    Match.where(winner: registrations).or(Match.where(loser: registrations))
   end
 
   def all_tournaments
@@ -64,7 +65,8 @@ class Player < ActiveRecord::Base
   end
 
   def tournament_matches(tournament)
-    tournament.matches.where(winner_id: self.registrations).or(tournament.matches.where(loser_id: self.registrations))
+    registrations = self.registrations
+    tournament.matches.where(winner_id: registrations).or(tournament.matches.where(loser_id: registrations))
   end
 
   def update_elo(new_elo)

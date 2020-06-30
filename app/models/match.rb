@@ -118,7 +118,7 @@ class Match < ActiveRecord::Base
       self.format_elo_delta = loser.constructed_elo - new_loser_elo
 
       winner.max_constructed_elo_check(new_winner_elo)
-f
+
       winner.update_constructed_elo(new_winner_elo)
       loser.update_constructed_elo(new_loser_elo)
     end

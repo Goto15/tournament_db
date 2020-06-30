@@ -2,13 +2,7 @@
 
 class TournamentsController < ApplicationController
   def index
-    tournaments = {}
-
-    Tournament.all.each do |tournament|
-      tournaments[tournament.id] = tournament.index_data
-    end
-
-    render json: tournaments
+    render json: Tournament.all
   end
 
   def show
@@ -20,6 +14,6 @@ class TournamentsController < ApplicationController
   end
 
   def matches
-    render json: Tournament.find(params[:id]).matches_data
+    render json: Tournament.find(params[:id]).matches
   end
 end

@@ -26,13 +26,15 @@ class Tournament < ActiveRecord::Base
   end
 
   def players
-    Player.where(id: Registration.where(id: self.matches.where(round: '1').pluck(:winner_id, :loser_id).flatten).pluck(:player_id))
+    Player.where(
+      id: Registration.where(
+        id: self.matches.where(round: '1').pluck(:winner_id, :loser_id).flatten).pluck(:player_id))
   end
 
   def top_8
-    Player.where(id: 
-      Registration.where(id: 
-        self.matches.where(round: $NON_SWISS_ROUNDS).pluck(:winner_id, :loser_id).flatten.compact.uniq))
+    Player.where(
+      id: Registration.where(
+        id: self.matches.where(round: $NON_SWISS_ROUNDS).pluck(:winner_id, :loser_id).flatten.compact.uniq))
   end
 
   def winner
@@ -40,27 +42,15 @@ class Tournament < ActiveRecord::Base
     winner ? winner : 'No finals'
   end
 
-  def index_data
-    {
-      name: self.name,
-      format: self.format,
-      date: self.format_date
-    }
-  end
-
   def matches_data
-    {
-      tournament: self.name,
-      format: self.format,
-      date: self.format_date,
-      matches: self.matches.map do |match|        
-                  {
-                    winner: match.winner_ign,
-                    loser: match.loser_ign,
-                    round: match.round
-                  }
-                end
-    }
+    self.matches.map do |match|        
+      {
+        winner: match.winner.player,
+        loser: match.loser.player,
+        elo_delta: match.elo_delta,
+        round: match.round
+      }
+    end
   end
 
   def show_data
